@@ -1,10 +1,7 @@
 name: Trigger API Test Workflow
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+  deployment_status:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -13,6 +10,8 @@ jobs:
   trigger:
     runs-on: ubuntu-latest
 
+    # Trigger API workflow only if deployment status is success
+    if: github.event.deployment_status.state == 'success'
     steps:
       # Trigger Workflow in another repository if the deployment status is Completed
       - name: Trigger Workflow in Another Repository
